@@ -1,6 +1,5 @@
 # 🧠 Neural Mirror (Facial Emotion Tracking Kiosk)
 
-![UI/UX Design](https://img.shields.io/badge/Course-UI%2FUX%20Design-blue)
 ![AI Powered](https://img.shields.io/badge/Powered%20by-Google%20Gemini%20AI-orange)
 ![Platform](https://img.shields.io/badge/Platform-WordPress%20Theme-green)
 
