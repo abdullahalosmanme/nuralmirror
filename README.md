@@ -1,6 +1,5 @@
 # 🧠 Neural Mirror (Facial Emotion Tracking Kiosk)
 
-![AI Powered](https://img.shields.io/badge/Powered%20by-Google%20Gemini%20AI-orange)
 ![Platform](https://img.shields.io/badge/Platform-WordPress%20Theme-green)
 
 **Neural Mirror** is an interactive, AI-powered museum kiosk application that analyzes visitors' facial expressions in real-time and visualizes their emotional state through an immersive digital experience. The project demonstrates the seamless convergence of artificial intelligence, computer vision, and modern web technologies to create an engaging public installation.
