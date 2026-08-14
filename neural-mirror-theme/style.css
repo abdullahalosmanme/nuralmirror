@@ -1,0 +1,889 @@
+/*
+Theme Name: Neural Mirror Theme
+Theme URI: https://www.abdullahalosman.site
+Author: Abdullah Al Osman
+Author URI: https://www.abdullahalosman.site
+Description: Interactive AI Museum Experience Theme
+Version: 1.1
+Requires at least: 5.0
+Tested up to: 6.5
+Requires PHP: 7.0
+Text Domain: neural-mirror
+*/
+
+/* ==========================================================================
+   DESIGN SYSTEM & VARIABLES
+   ========================================================================== */
+:root {
+    --bg-primary: #F4F5F7;
+    --bg-secondary: #E9ECEF;
+    --surface: #FFFFFF;
+    --surface-elevated: #FFFFFF;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --accent-cyan: #0284C7;
+    --accent-violet: #4F46E5;
+    --accent-pink: #DB2777;
+    --success: #059669;
+    --warning: #D97706;
+    --border: #CBD5E1;
+    --focus-ring: rgba(2, 132, 199, 0.5);
+    --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.05);
+    --particle-color: 2, 132, 199;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #07090F;
+    --bg-secondary: #0D111C;
+    --surface: #111827;
+    --surface-elevated: #1F2937;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --accent-cyan: #38BDF8;
+    --accent-violet: #818CF8;
+    --accent-pink: #F472B6;
+    --success: #34D399;
+    --warning: #FBBF24;
+    --border: #334155;
+    --focus-ring: rgba(56, 189, 248, 0.5);
+    --shadow-subtle: 0 10px 40px rgba(0, 0, 0, 0.4);
+    --particle-color: 56, 189, 248;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.4s ease, color 0.4s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .display-text {
+    font-family: 'Space Grotesk', 'Noto Sans Bengali', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY & UTILITIES
+   ========================================================================== */
+:focus-visible {
+    outline: 3px solid var(--accent-cyan);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.high-contrast {
+    --text-secondary: var(--text-primary);
+    --border: var(--text-primary);
+}
+
+.large-text {
+    font-size: 110% !important;
+}
+
+/* ==========================================================================
+   LAYOUT COMPONENTS
+   ========================================================================== */
+/* --- APP LAYOUT --- */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.logo i {
+    color: var(--accent-cyan);
+}
+
+.nav-controls {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    min-width: 44px;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+.icon-btn {
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface);
+    padding: 0.75rem;
+}
+
+.icon-btn:hover {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+}
+
+.btn-primary {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    padding: 1rem 2.5rem;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 1.125rem;
+    letter-spacing: 0.02em;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 1rem 2.5rem;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 1.125rem;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    opacity: 0.9;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Changed to flow naturally to avoid overlap */
+    position: relative;
+    padding: 2rem;
+    overflow: visible;
+}
+
+footer {
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    z-index: 100;
+    margin-top: auto; /* Pushes to bottom */
+}
+
+.footer-credits a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.footer-credits a:hover {
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   STATE VIEWS (SPA LOGIC)
+   ========================================================================== */
+.state-view {
+    display: none; /* Hide inactive states */
+    flex: 1; /* Allow active state to fill space */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.state-view.active {
+    display: flex; /* Show active state in normal document flow */
+}
+
+@keyframes fadeInScale {
+    0% { opacity: 0; transform: scale(0.98); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Typography sizing for screens */
+.kiosk-title {
+    font-size: clamp(3rem, 5vw, 6rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.kiosk-subtitle {
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    color: var(--text-secondary);
+    max-width: 600px;
+    text-align: center;
+    margin-bottom: 3rem;
+    line-height: 1.5;
+}
+
+/* Screen 1: Idle Attract */
+.attract-visual {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vmin;
+    height: 80vmin;
+    z-index: -1;
+    opacity: 0.3;
+    background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 60%);
+    filter: blur(80px);
+    animation: pulse-glow 8s infinite alternate;
+}
+
+@keyframes pulse-glow {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.2; }
+    100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.4; }
+}
+
+.action-group {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Screen 2: Intro */
+.steps-container {
+    display: flex;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.step-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.step-number {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3rem;
+    color: var(--accent-cyan);
+    font-weight: 300;
+    line-height: 1;
+}
+
+.step-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+/* Screen 3 & 4: Camera / Positioning */
+.camera-frame {
+    width: 400px;
+    height: 500px;
+    border: 2px dashed var(--border);
+    border-radius: 200px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+.camera-frame video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 1;
+    transform: scaleX(-1);
+    border-radius: inherit;
+}
+
+.camera-frame.detected {
+    border-color: var(--success);
+    border-style: solid;
+    box-shadow: 0 0 40px rgba(5, 150, 105, 0.2);
+}
+
+.face-outline {
+    width: 60%;
+    height: 70%;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    opacity: 0.7;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.camera-frame.detected .face-outline {
+    border-color: var(--success);
+    opacity: 1;
+}
+
+.landmark {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.camera-frame.detected .landmark {
+    opacity: 1;
+}
+
+.feedback-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    height: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Screen 5: AI Analysis */
+.ai-core {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid transparent;
+}
+
+.ring-1 { width: 100%; height: 100%; border-top-color: var(--accent-cyan); animation: spin 3s linear infinite; }
+.ring-2 { width: 80%; height: 80%; border-right-color: var(--accent-violet); animation: spin 2s linear infinite reverse; }
+.ring-3 { width: 60%; height: 60%; border-bottom-color: var(--accent-pink); animation: spin 4s linear infinite; }
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.progress-indicator {
+    width: 300px;
+    height: 2px;
+    background: var(--border);
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--accent-cyan);
+    width: 0%;
+    transition: width 0.3s linear;
+}
+
+.analysis-label {
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Screen 6 & 7: Emotion Result Card Layout */
+.result-card {
+    display: flex;
+    gap: 3rem;
+    background: rgba(17, 24, 39, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 3rem;
+    max-width: 900px;
+    width: 90%;
+    margin-bottom: 2rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+[data-theme="light"] .result-card {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.result-image-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 300px;
+    flex-shrink: 0;
+}
+
+#captured-snapshot {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 4px solid var(--accent-cyan);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.result-text-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-align: left;
+}
+
+/* Dynamic AI-Generated Title */
+.result-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-family: 'Space Grotesk', 'Noto Sans Bengali', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+    word-wrap: break-word;
+}
+
+/* Scrollable result text column for expanded fields */
+.result-text-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-align: left;
+    /* Removed scrolling constraints */
+}
+
+/* Emotion Header & Emoji */
+.emotion-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.result-emoji {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 1;
+}
+
+.emotion-description {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+/* Side-by-side stat row */
+.detail-row {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.detail-half {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Fun Box */
+.fun-box {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    background: rgba(var(--accent-cyan-rgb), 0.05); /* Slight tint if supported, else default highlight */
+}
+
+/* Visual separator between field groups */
+.detail-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%);
+    margin: 1rem 0;
+    opacity: 0.6;
+}
+
+/* Email Modal Styles */
+.email-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.email-modal.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.email-modal-content {
+    background: #ffffff;
+    color: #111827; /* Force dark text on white bg */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 2.5rem;
+    max-width: 450px;
+    width: 90%;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+    .email-modal-content {
+        padding: 2rem 1.5rem;
+        width: 95%;
+    }
+}
+
+/* Remove theme-specific override since it's always white now */
+
+.email-modal-content h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #111827;
+}
+
+.email-modal-content p {
+    color: #4B5563;
+    margin-bottom: 2rem;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: #9CA3AF;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: color 0.2s ease;
+}
+
+.close-modal:hover {
+    color: #111827;
+}
+
+.email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.email-form input[type="email"] {
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #D1D5DB;
+    background: #F9FAFB;
+    color: #111827;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+[data-theme="light"] .email-form input[type="email"] {
+    /* Kept for fallback, but it's identical now */
+    border: 1px solid #D1D5DB;
+    background: #F9FAFB;
+}
+
+.email-form input[type="email"]:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+}
+
+.email-form button {
+    padding: 1rem;
+    border-radius: 12px;
+    border: none;
+    background: var(--accent-cyan);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.email-form button:hover {
+    transform: translateY(-2px);
+    background: #0891b2;
+}
+
+.email-status {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.email-status.success { color: #10B981; }
+.email-status.error { color: #EF4444; }
+
+.result-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.detail-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.detail-label {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.detail-text {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+
+.highlight-box {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: rgba(var(--particle-color), 0.1);
+    border-left: 4px solid var(--accent-cyan);
+    border-radius: 0 12px 12px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.highlight-box i {
+    color: var(--accent-cyan);
+    flex-shrink: 0;
+}
+
+.highlight-box p {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.disclaimer {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#visualization-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    cursor: crosshair;
+}
+
+.vis-controls {
+    position: relative;
+    margin-top: 2rem;
+    z-index: 10;
+    display: flex;
+    gap: 1rem;
+}
+
+/* Screen 8: Science */
+.pipeline-diagram {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin: 4rem 0;
+    overflow-x: auto;
+    padding: 1rem;
+    max-width: 100%;
+}
+
+.pipeline-node {
+    background: var(--surface-elevated);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    min-width: 160px;
+    text-align: center;
+    position: relative;
+}
+
+.pipeline-arrow {
+    color: var(--text-secondary);
+}
+
+/* Responsive Adjustments */
+
+/* Tablet & Smaller Desktop */
+@media (max-width: 1024px) {
+    .kiosk-title { font-size: clamp(2.5rem, 4vw, 4rem); }
+    .camera-frame { width: 320px; height: 420px; border-radius: 160px; }
+    .ai-core { width: 250px; height: 250px; }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+    header { padding: 1rem 1.5rem; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    footer { padding: 1.5rem; flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+    .footer-credits { text-align: center !important; }
+    main { padding: 1rem; }
+    .steps-container { flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
+    .action-group { flex-direction: column; width: 100%; max-width: 300px; }
+    .action-group button { width: 100%; }
+    .pipeline-diagram { flex-direction: column; gap: 1rem; }
+    .pipeline-arrow { transform: rotate(90deg); }
+    
+    .camera-frame { 
+        width: 100%; 
+        max-width: 220px; 
+        height: 300px; 
+        border-radius: 110px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .ai-core { width: 180px; height: 180px; margin-bottom: 1.5rem; }
+    
+    .result-card {
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.5rem;
+        border-radius: 16px;
+    }
+    
+    .result-image-col {
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    
+    .result-text-col {
+        text-align: center;
+        /* Removed max-height */
+    }
+    
+    .result-title { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    
+    .detail-row {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .detail-text { font-size: 1rem; }
+    .highlight-box { text-align: left; padding: 1rem; }
+    .highlight-box p { font-size: 1rem; }
+    
+    .vis-controls {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+        gap: 0.5rem;
+    }
+    
+    .vis-controls button {
+        width: 100%;
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Very Small Mobile */
+@media (max-width: 480px) {
+    header .logo { font-size: 1rem; }
+    .nav-controls { gap: 0.5rem; }
+    .btn-primary, .btn-secondary { padding: 0.75rem 1.5rem; font-size: 1rem; }
+    .camera-frame { max-width: 200px; height: 260px; border-radius: 100px; }
+}
+
+/* Kiosk specific constraints */
+@media (min-height: 1000px) and (min-width: 1000px) {
+    .app-container { justify-content: center; }
+    main { padding: 4rem; }
+}
